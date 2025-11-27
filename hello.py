@@ -1,2 +1,11 @@
+from flask import Flask
 
-print("Hello, World!")
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return {"message": "Hello, GitHub Actions!"}
+
+if __name__ == "__main__":
+    # roda na porta 5000
+    app.run(host="0.0.0.0", port=5000)
