@@ -11,4 +11,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Step de validação
-        run: echo "funcionou"
+        run: echo "funcionou!"
