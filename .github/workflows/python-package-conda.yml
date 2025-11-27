@@ -12,7 +12,7 @@ jobs:
   hello-job:
     runs-on: ubuntu-latest
     container:
-      image: ubuntu/python:3.11
+      image: ubuntu/python:3.12-24.04
     steps:
       - name: Install tail
         run: apt-get update && apt-get install -y coreutils
