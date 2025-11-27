@@ -1,7 +1,11 @@
 name: Teste Runner Self-Hosted
 
+
 on:
-  workflow_dispatch:   # permite rodar manualmente pelo botão "Run workflow".
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   test:
