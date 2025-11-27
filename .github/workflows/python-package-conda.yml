@@ -11,9 +11,13 @@ jobs:
   hello-job:
     runs-on: ubuntu-latest
     container:
-      image: ubuntu/python:3.12-24.04  # Escolha a tag que contém a versão do Python desejada
+      image: ubuntu/python:3.12-24.04  # Use a tag específica para evitar surpresas
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Verify Python version
+        run: python --version
+
       - name: Run Hello script
+        run: python hello.py
