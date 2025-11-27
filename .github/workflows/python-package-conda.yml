@@ -17,5 +17,5 @@ jobs:
       - name: Step de validação
         run: echo "funcionou!"
       - name: iniciando minikube
-        run: minikube stop --vm-driver=hyperv
+        run: minikube start --vm-driver=hyperv
 
