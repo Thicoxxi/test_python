@@ -7,17 +7,18 @@ on:
       - main
   workflow_dispatch:
 
+
 jobs:
   hello-job:
     runs-on: ubuntu-latest
     container:
-      image: ubuntu/python:3.12-24.04  # Use a tag específica para evitar surpresas
+      image: ubuntu/python:3.11
     steps:
+      - name: Install tail
+        run: apt-get update && apt-get install -y coreutils
+
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Verify Python version
-        run: python --version
 
       - name: Run Hello script
         run: python hello.py
