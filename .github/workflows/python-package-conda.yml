@@ -1,5 +1,5 @@
 
-name: Run Hello Python
+name: Run Hello in ubuntu/python Container
 
 on:
   push:
@@ -10,15 +10,10 @@ on:
 jobs:
   hello-job:
     runs-on: ubuntu-latest
-
+    container:
+      image: ubuntu/python:3.12-24.04  # Escolha a tag que contém a versão do Python desejada
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
       - name: Run Hello script
-        run: python hello.py
