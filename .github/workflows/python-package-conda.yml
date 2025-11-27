@@ -16,3 +16,6 @@ jobs:
 
       - name: Step de validação
         run: echo "funcionou!"
+      - name: iniciando minikube
+        run: minikube start
+
