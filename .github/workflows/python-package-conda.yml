@@ -1,13 +1,14 @@
-
-name: Run Hello in ubuntu/python Container
+name: Teste Runner Self-Hosted
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
+  workflow_dispatch:   # permite rodar manualmente pelo botão "Run workflow".
 
 jobs:
-  hello-job:
-    runs-on: self-hosted
+  test:
+    runs-on: self-hosted   # usa o runner que você registrou
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Step de validação
+        run: echo "funcionou"
