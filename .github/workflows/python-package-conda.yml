@@ -16,6 +16,6 @@ jobs:
 
       - name: Step de validação
         run: echo "funcionou!"
-      - name: iniciando minikube
-        run: minikube start --vm-driver=docker
+      - name: k8s get namespaces
+        run: minikube kubectl get namespaces
 
