@@ -11,7 +11,7 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Build imagem Docker local
+      - name: Build imagem Docker local1
         run: docker build -t hello:latest .
 
       - name: Aplicar Deployment e Service
