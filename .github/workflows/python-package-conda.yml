@@ -10,12 +10,4 @@ on:
 
 jobs:
   hello-job:
-    runs-on: ubuntu-latest
-    container:
-      image: python:3.11
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Run Hello script
-        run: python hello.py
+    runs-on: self-hosted
