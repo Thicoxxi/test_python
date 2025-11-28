@@ -2,7 +2,7 @@ name: Minikube Hello API
 
 on:
   push:
-    #branches: [ "main" ]
+    branches: [ "main" ]
 
 jobs:
   deploy:
