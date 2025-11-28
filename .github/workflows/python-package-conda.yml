@@ -37,5 +37,5 @@ jobs:
 
       - name: Testar serviço
         run: |
-          $url = minikube service hello-service --url
-          curl $url
+          minikube service hello-service --url
+          curl $(minikube service hello-service --url)
