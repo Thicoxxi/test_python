@@ -13,7 +13,7 @@ jobs:
 
       - name: Build imagem Docker local1
         run: |
-          eval $(minikube docker-env)
+          minikube docker-env --shell powershell | Invoke-Expression
           docker build -t hello:latest .
 
 
