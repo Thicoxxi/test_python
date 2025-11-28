@@ -11,7 +11,7 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Build imagem Docker local1
+      - name: Build imagem Docker local
         run: |
           minikube docker-env --shell powershell | Invoke-Expression
           docker build -t hello:latest .
