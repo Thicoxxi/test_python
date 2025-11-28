@@ -1,3 +1,4 @@
+
 name: Minikube Hello API
 
 on:
@@ -6,19 +7,26 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted   # seu runner com Minikube instalado
+    runs-on: self-hosted
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
+      - name: Definir versão da imagem
+        id: version
+        run: |
+          VERSION="v${{ github.run_number }}-${{ github.sha }}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Build imagem Docker local
         run: |
           minikube docker-env --shell powershell | Invoke-Expression
-          docker build -t hello:latest .
-
+          docker build -t hello:${{ env.VERSION }} .
 
       - name: Aplicar Deployment e Service
         run: |
+          # Atualiza a imagem no deployment.yaml antes de aplicar
+          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: hello:${{ env.VERSION }}" | Set-Content deployment.yaml
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
 
