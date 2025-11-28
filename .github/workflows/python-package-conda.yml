@@ -13,20 +13,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Definir versão da imagem
-        id: version
         run: |
-          VERSION="v${{ github.run_number }}-${{ github.sha }}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          $VERSION = "v${{ github.run_number }}-${{ github.sha }}"
+          echo "VERSION=$VERSION" >> $env:GITHUB_ENV
 
       - name: Build imagem Docker local
         run: |
           minikube docker-env --shell powershell | Invoke-Expression
           docker build -t hello:${{ env.VERSION }} .
 
+      - name: Atualizar imagem no deployment.yaml
+        run: |
+          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: hello:${{ env.VERSION }}" | Set-Content deployment.yaml
+
       - name: Aplicar Deployment e Service
         run: |
-          # Atualiza a imagem no deployment.yaml antes de aplicar
-          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: hello:${{ env.VERSION }}" | Set-Content deployment.yaml
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
 
@@ -36,5 +37,5 @@ jobs:
 
       - name: Testar serviço
         run: |
-          minikube service hello-service --url
-          curl $(minikube service hello-service --url)
+          $url = minikube service hello-service --url
+          curl $url
