@@ -6,25 +6,46 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy:
+  version:
     runs-on: self-hosted
+    outputs:
+      VERSION: ${{ steps.set-version.outputs.VERSION }}
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
       - name: Definir versão da imagem
+        id: set-version
         run: |
-          $VERSION = "v${{ github.run_number }}-${{ github.sha }}"
-          echo "VERSION=$VERSION" >> $env:GITHUB_ENV
+          VERSION="v${{ github.run_number }}-${{ github.sha }}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "::set-output name=VERSION::$VERSION"
+
+  build:
+    runs-on: self-hosted
+    needs: version
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker no Minikube
+        run: |
+          minikube docker-env --shell powershell | Invoke-Expression
 
       - name: Build imagem Docker local
         run: |
-          minikube docker-env --shell powershell | Invoke-Expression
-          docker build -t hello:${{ env.VERSION }} .
+          docker build -t hello:${{ needs.version.outputs.VERSION }} .
 
       - name: Atualizar imagem no deployment.yaml
         run: |
-          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: hello:${{ env.VERSION }}" | Set-Content deployment.yaml
+          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: hello:${{ needs.version.outputs.VERSION }}" | Set-Content deployment.yaml
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
 
       - name: Aplicar Deployment e Service
         run: |
