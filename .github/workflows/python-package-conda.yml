@@ -42,7 +42,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
-    needs: build
+    needs: [version, build]   # ✅ Agora depende dos dois
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
