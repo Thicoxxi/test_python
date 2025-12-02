@@ -30,19 +30,19 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build imagem Docker
+      - name: Build imagem Docker local
         run: |
-          $IMAGE_NAME = "thico/hello"
           $VERSION = "${{ env.VERSION }}"
-          docker build -t "${IMAGE_NAME}:${VERSION}" .
-          docker tag "${IMAGE_NAME}:${VERSION}" "${IMAGE_NAME}:latest"
+          docker build -t "hello:$VERSION" .
 
-      - name: Push para Docker Hub
+      - name: Tag e Push para Docker Hub
         run: |
-          $IMAGE_NAME = "thico/hello"
           $VERSION = "${{ env.VERSION }}"
-          docker push "${IMAGE_NAME}:${VERSION}"
-          docker push "${IMAGE_NAME}:latest"
+          $IMAGE_NAME = "thico/hello"
+          docker tag "hello:$VERSION" "$IMAGE_NAME:$VERSION"
+          docker tag "hello:$VERSION" "$IMAGE_NAME:latest"
+          docker push "$IMAGE_NAME:$VERSION"
+          docker push "$IMAGE_NAME:latest"
 
       - name: Atualizar imagem no deployment.yaml
         run: |
