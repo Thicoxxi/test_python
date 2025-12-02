@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY *.py .
 
 # Define script fixo
-CMD ["python", "/app/hello.py"]
+CMD ["python", "hello.py"]
