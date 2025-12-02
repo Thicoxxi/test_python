@@ -19,7 +19,7 @@ jobs:
         run: |
           $SHORT_SHA = "${{ github.sha }}".Substring(0,7)
           $VERSION = "v${{ github.run_number }}-$SHORT_SHA"
-          echo "::set-output name=VERSION::$VERSION"
+          echo "VERSION=$VERSION" >> $env:GITHUB_OUTPUT
 
   build-and-push:
     runs-on: self-hosted
@@ -51,7 +51,7 @@ jobs:
       - name: Atualizar imagem no deployment.yaml
         run: |
           $VERSION = "${{ needs.version.outputs.VERSION }}"
-          (Get-Content deployment.yaml) -replace 'image: thico/hello:latest', "image: thico/hello:$VERSION" | Set-Content deployment.yaml
+          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: thico/hello:$VERSION" | Set-Content deployment.yaml
 
   deploy:
     runs-on: self-hosted
