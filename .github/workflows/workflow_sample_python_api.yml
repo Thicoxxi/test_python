@@ -37,6 +37,7 @@ jobs:
       - name: Build imagem Docker local
         run: |
           $VERSION = "${{ needs.version.outputs.VERSION }}"
+          $SCRIPT = "hello.py" # ou outro script
           docker build -t "hello:$VERSION" .
 
       - name: Tag e Push para Docker Hub
