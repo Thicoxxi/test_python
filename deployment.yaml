@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: hello-container
-        image: hello:latest
+        image: thico/hello:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
