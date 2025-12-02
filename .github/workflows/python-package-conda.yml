@@ -51,7 +51,7 @@ jobs:
       - name: Atualizar imagem no deployment.yaml
         run: |
           $VERSION = "${{ needs.version.outputs.VERSION }}"
-          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: thico/hello:$VERSION" | Set-Content deployment.yaml
+          (Get-Content deployment.yaml) -replace 'image: thico/hello:latest', "image: thico/hello:$VERSION" | Set-Content deployment.yaml
 
   deploy:
     runs-on: self-hosted
@@ -67,9 +67,20 @@ jobs:
 
       - name: Esperar pods ficarem prontos
         run: |
-          kubectl rollout status deployment/hello-deployment
+          kubectl rollout status deployment/hello-deployment --timeout=120s
 
-      - name: Testar serviço
+      - name: Testar serviço (somente se rollout OK)
+        if: success()
         run: |
           $url = minikube service hello-service --url
+          Write-Host "Testando serviço em $url"
           curl $url
+
+      - name: Debug se falhar
+        if: failure()
+        run: |
+          echo "Rollout falhou! Coletando logs..."
+          kubectl describe deployment hello-deployment
+          kubectl get pods -l app=hello
+          kubectl describe pods -l app=hello
+          kubectl logs $(kubectl get pods -l app=hello -o jsonpath='{.items[0].metadata.name}')
