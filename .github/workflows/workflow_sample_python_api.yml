@@ -1,5 +1,5 @@
 
-name: Minikube Hello Python API
+name: Minikube Hello
 
 on:
   push:
