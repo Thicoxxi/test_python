@@ -38,11 +38,31 @@ jobs:
 
       - name: Atualizar imagem no deployment.yaml
         run: |
-          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: hello:${{ needs.version.outputs.VERSION }}" | Set-Content deployment.yaml
+          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: usuario/hello:${{ needs.version.outputs.VERSION }}" | Set-Content deployment.yaml
+
+  push:
+    runs-on: self-hosted
+    needs: [version, build]
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Tag e Push para Docker Hub
+        run: |
+          IMAGE_NAME="thico/hello"
+          VERSION="${{ needs.version.outputs.VERSION }}"
+          docker tag hello:$VERSION $IMAGE_NAME:$VERSION
+          docker push $IMAGE_NAME:$VERSION
 
   deploy:
     runs-on: self-hosted
-    needs: [version, build]   # ✅ Agora depende dos dois
+    needs: [version, build, push]
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
