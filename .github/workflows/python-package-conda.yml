@@ -33,6 +33,7 @@ jobs:
       - name: Build imagem Docker local
         run: |
           $VERSION = "${{ env.VERSION }}"
+          if (-not $VERSION) { throw "VERSION está vazio!" }
           docker build -t "hello:$VERSION" .
 
       - name: Tag e Push para Docker Hub
