@@ -17,7 +17,6 @@ jobs:
           $VERSION = "v${{ github.run_number }}-${{ github.sha }}"
           echo "VERSION=$VERSION" >> $env:GITHUB_ENV
 
-
   build-and-push:
     runs-on: self-hosted
     needs: version
@@ -34,14 +33,14 @@ jobs:
       - name: Build imagem Docker
         run: |
           $IMAGE_NAME = "thico/hello"
-          docker build -t ${IMAGE_NAME}:${{ env.VERSION }} .
-          docker tag ${IMAGE_NAME}:${{ env.VERSION }} ${IMAGE_NAME}:latest
+          docker build -t "${IMAGE_NAME}:${{ env.VERSION }}" .
+          docker tag "${IMAGE_NAME}:${{ env.VERSION }}" "${IMAGE_NAME}:latest"
 
       - name: Push para Docker Hub
         run: |
           $IMAGE_NAME = "thico/hello"
-          docker push ${IMAGE_NAME}:${{ env.VERSION }}
-          docker push ${IMAGE_NAME}:latest
+          docker push "${IMAGE_NAME}:${{ env.VERSION }}"
+          docker push "${IMAGE_NAME}:latest"
 
       - name: Atualizar imagem no deployment.yaml
         run: |
