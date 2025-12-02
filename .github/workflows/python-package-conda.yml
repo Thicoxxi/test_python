@@ -33,18 +33,20 @@ jobs:
       - name: Build imagem Docker
         run: |
           $IMAGE_NAME = "thico/hello"
-          docker build -t "${IMAGE_NAME}:${{ env.VERSION }}" .
-          docker tag "${IMAGE_NAME}:${{ env.VERSION }}" "${IMAGE_NAME}:latest"
+          $VERSION = "${{ env.VERSION }}"
+          docker build -t "$IMAGE_NAME:$VERSION" .
+          docker tag "$IMAGE_NAME:$VERSION" "$IMAGE_NAME:latest"
 
       - name: Push para Docker Hub
         run: |
           $IMAGE_NAME = "thico/hello"
-          docker push "${IMAGE_NAME}:${{ env.VERSION }}"
-          docker push "${IMAGE_NAME}:latest"
+          $VERSION = "${{ env.VERSION }}"
+          docker push "$IMAGE_NAME:$VERSION"
+          docker push "$IMAGE_NAME:latest"
 
       - name: Atualizar imagem no deployment.yaml
         run: |
-          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: thico/hello:${{ env.VERSION }}" | Set-Content deployment.yaml
+          (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: thico/hello:$VERSION" | Set-Content deployment.yaml
 
   deploy:
     runs-on: self-hosted
@@ -64,5 +66,5 @@ jobs:
 
       - name: Testar serviço
         run: |
-          minikube service hello-service --url
-          curl $(minikube service hello-service --url)
+          $url = minikube service hello-service --url
+          curl $url
