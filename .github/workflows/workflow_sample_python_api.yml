@@ -34,13 +34,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-
       - name: Build imagem Docker local
         run: |
           $VERSION = "${{ needs.version.outputs.VERSION }}"
-          $SCRIPT = "hello.py" # ou outro script
-          docker build --build-arg SCRIPT=$SCRIPT -t "hello:$VERSION" .
-
+          docker build -t "hello:$VERSION" .
 
       - name: Tag e Push para Docker Hub
         run: |
