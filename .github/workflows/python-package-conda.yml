@@ -17,9 +17,9 @@ jobs:
       - name: Definir versão da imagem
         id: set-version
         run: |
-          VERSION="v${{ github.run_number }}-${{ github.sha }}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "::set-output name=VERSION::$VERSION"
+         VERSION="v${{ github.run_number }}-${{ github.sha }}"
+         echo "VERSION=$VERSION" >> $GITHUB_ENV
+
 
   build:
     runs-on: self-hosted
