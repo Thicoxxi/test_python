@@ -34,15 +34,15 @@ jobs:
         run: |
           $IMAGE_NAME = "thico/hello"
           $VERSION = "${{ env.VERSION }}"
-          docker build -t "$IMAGE_NAME:$VERSION" .
-          docker tag "$IMAGE_NAME:$VERSION" "$IMAGE_NAME:latest"
+          docker build -t "${IMAGE_NAME}:${VERSION}" .
+          docker tag "${IMAGE_NAME}:${VERSION}" "${IMAGE_NAME}:latest"
 
       - name: Push para Docker Hub
         run: |
           $IMAGE_NAME = "thico/hello"
           $VERSION = "${{ env.VERSION }}"
-          docker push "$IMAGE_NAME:$VERSION"
-          docker push "$IMAGE_NAME:latest"
+          docker push "${IMAGE_NAME}:${VERSION}"
+          docker push "${IMAGE_NAME}:latest"
 
       - name: Atualizar imagem no deployment.yaml
         run: |
