@@ -8,14 +8,18 @@ on:
 jobs:
   version:
     runs-on: self-hosted
+    outputs:
+      VERSION: ${{ steps.set-version.outputs.VERSION }}
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Definir versão da imagem
+      - name: Definir versão da imagem (short SHA)
+        id: set-version
         run: |
-          $VERSION = "v${{ github.run_number }}-${{ github.sha }}"
-          echo "VERSION=$VERSION" >> $env:GITHUB_ENV
+          $SHORT_SHA = "${{ github.sha }}".Substring(0,7)
+          $VERSION = "v${{ github.run_number }}-$SHORT_SHA"
+          echo "::set-output name=VERSION::$VERSION"
 
   build-and-push:
     runs-on: self-hosted
@@ -32,21 +36,21 @@ jobs:
 
       - name: Build imagem Docker local
         run: |
-          $VERSION = "${{ env.VERSION }}"
-          if (-not $VERSION) { throw "VERSION está vazio!" }
+          $VERSION = "${{ needs.version.outputs.VERSION }}"
           docker build -t "hello:$VERSION" .
 
       - name: Tag e Push para Docker Hub
         run: |
-          $VERSION = "${{ env.VERSION }}"
+          $VERSION = "${{ needs.version.outputs.VERSION }}"
           $IMAGE_NAME = "thico/hello"
-          docker tag "hello:$VERSION" "$IMAGE_NAME:$VERSION"
-          docker tag "hello:$VERSION" "$IMAGE_NAME:latest"
-          docker push "$IMAGE_NAME:$VERSION"
-          docker push "$IMAGE_NAME:latest"
+          docker tag "hello:$VERSION" "${IMAGE_NAME}:$VERSION"
+          docker tag "hello:$VERSION" "${IMAGE_NAME}:latest"
+          docker push "${IMAGE_NAME}:$VERSION"
+          docker push "${IMAGE_NAME}:latest"
 
       - name: Atualizar imagem no deployment.yaml
         run: |
+          $VERSION = "${{ needs.version.outputs.VERSION }}"
           (Get-Content deployment.yaml) -replace 'image: hello:latest', "image: thico/hello:$VERSION" | Set-Content deployment.yaml
 
   deploy:
