@@ -109,17 +109,22 @@ def zelda_story():
 </head>
 <body>
     <h1>The Legend of Zelda: Breath of the Wild</h1>
-    <p>Há 100 anos, Calamity Ganon devastou Hyrule...</p>
+    <p>Há 100 anos, Calamity Ganon devastou Hyrule, mergulhando o reino em caos e destruição.</p>
+    <p>Link desperta após um longo sono sem memórias, guiado por uma voz misteriosa que o chama para salvar a princesa Zelda.</p>
+    <p>Para derrotar Ganon, Link deve explorar um vasto mundo aberto, enfrentar inimigos poderosos, recuperar suas forças e libertar as quatro Bestas Divinas.</p>
+    <p>Cada passo revela segredos antigos, desafios épicos e a verdadeira história da Triforce.</p>
+    <p>Com coragem e determinação, Link embarca em uma jornada para restaurar a paz em Hyrule e cumprir seu destino como herói lendário.</p>
+
     <div class="carousel">
         <div class="slides" id="slides">
             /static/images/zelda1.jpg
-            <img src="/static/images/zelda2.jpg" alt="tic/images/zelda3.jpg
-        </div>
+            <img src="/static/images/zelda2.jpg" alt="Imagem/static/images/zelda3.jpg"div>
         <div class="buttons">
             <button onclick="prevSlide()">&#10094;</button>
             <button onclick="nextSlide()">&#10095;</button>
         </div>
     </div>
+
     <script>
         let index = 0;
         const slides = document.getElementById('slides');
@@ -138,10 +143,12 @@ def zelda_story():
             index = (index - 1 + totalSlides) % totalSlides;
             showSlide();
         }
+
+        // Garante que a primeira imagem aparece ao carregar
+        showSlide();
     </script>
 </body>
 </html>
     """
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)

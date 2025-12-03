@@ -1,13 +1,19 @@
 
-FROM python:3.13
+FROM python:3.11-slim
+
+# Define diretório de trabalho
 WORKDIR /app
 
-# Copia dependências e instala
+# Copia dependências primeiro (melhor para cache)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia todos os scripts Python
-COPY *.py .
+# Copia código e arquivos estáticos
+COPY app.py .
+COPY static ./static
 
-# Define script fixo
-CMD ["python", "hello.py"]
+# Expõe a porta do Flask
+EXPOSE 5000
+
+# Comando para rodar a aplicação
+CMD ["python", "app.py"]
