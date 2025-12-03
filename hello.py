@@ -117,8 +117,9 @@ def zelda_story():
 
     <div class="carousel">
         <div class="slides" id="slides">
-            /static/images/zelda1.jpg
-            <img src="/static/images/zelda2.jpg" alt="Imagem/static/images/zelda3.jpg"div>
+            <img src="/static/images/zelda1.jpg" altmg src="/static/images/zelda2.jpg
+            <img src="/static/images/zelda3.jpg
+        </div>
         <div class="buttons">
             <button onclick="prevSlide()">&#10094;</button>
             <button onclick="nextSlide()">&#10095;</button>
@@ -144,7 +145,7 @@ def zelda_story():
             showSlide();
         }
 
-        // Garante que a primeira imagem aparece ao carregar
+        // Mostra a primeira imagem ao carregar
         showSlide();
     </script>
 </body>
@@ -152,3 +153,4 @@ def zelda_story():
     """
 
 if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
