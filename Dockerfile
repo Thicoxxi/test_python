@@ -15,5 +15,4 @@ COPY static ./static
 # Expõe a porta do Flask
 EXPOSE 5000
 
-# Comando para rodar a aplicação
 CMD ["python", "hello.py"]
