@@ -16,4 +16,4 @@ COPY static ./static
 EXPOSE 5000
 
 # Comando para rodar a aplicação
-CMD ["python", "app.py"]
+CMD ["python", "hello.py"]
