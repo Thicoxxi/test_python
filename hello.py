@@ -1,5 +1,5 @@
 
-from flask import Flask
+from flask import Flask, send_from_directory
 
 app = Flask(__name__)
 
@@ -72,13 +72,7 @@ def zelda_story():
                 padding: 20px;
                 text-align: center;
             }
-            h1 {
-                color: #006400;
-            }
-            p {
-                font-size: 18px;
-                line-height: 1.6;
-            }
+            h1 { color: #006400; }
             .carousel {
                 position: relative;
                 width: 80%;
@@ -115,21 +109,14 @@ def zelda_story():
     </head>
     <body>
         <h1>The Legend of Zelda: Breath of the Wild</h1>
-        <p>Há 100 anos, Calamity Ganon devastou Hyrule. Link desperta sem memórias e deve explorar um vasto mundo aberto, recuperar forças, libertar as Bestas Divinas e derrotar Ganon no Castelo de Hyrule. Com ajuda de Zelda, Ganon é selado e o reino começa a ser restaurado.</p>
-        
+        <p>Há 100 anos, Calamity Ganon devastou Hyrule...</p>
         <div class="carousel">
             <div class="slides" id="slides">
-                https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000000025/7137262b5a64d921e193653f8aa0b722925abc5680380ca0e18a5cfd91697f58
-                https://wallpapercave.com/wp/wp3277308.jpg
-                https://jogorama.com.br/arquivos/telas/the-legend-of-zelda-breath-of-the-wild/the-legend-of-zelda-breath-of-the-wild-24.jpg
-                <img src="https://zelda.nintendo.com/breath-of-the-wild/es/media/" alt="Link e Zelda juntos">
-            </div>
-            <div class="buttons">
+                <img src="/static/images/zelda1.jpg       <img src="/static/images/zelda2.jpg              <img src="/static/images/zelda3.jpg" alt="Imagem         <div class="buttons">
                 <button onclick="prevSlide()">&#10094;</button>
                 <button onclick="nextSlide()">&#10095;</button>
             </div>
         </div>
-
         <script>
             let index = 0;
             const slides = document.getElementById('slides');
