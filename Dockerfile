@@ -1,5 +1,5 @@
 
-FROM python:3.11-slim
+FROM python:3.13
 
 # Define diretório de trabalho
 WORKDIR /app
@@ -9,7 +9,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia código e arquivos estáticos
-COPY app.py .
+COPY hello.py .
 COPY static ./static
 
 # Expõe a porta do Flask
